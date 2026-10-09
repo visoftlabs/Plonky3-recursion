@@ -155,6 +155,15 @@ pub struct CommonDataTargets<SC: StarkGenericConfig, Comm> {
     pub lookups: Vec<Vec<Lookup<Val<SC>>>>,
 }
 
+impl<SC: StarkGenericConfig, Comm> CommonDataTargets<SC, Comm> {
+    /// Key targets the recursive verifier consumes; the caller binds them to trusted authority.
+    pub fn preprocessed_commitment(&self) -> Option<&Comm> {
+        self.preprocessed
+            .as_ref()
+            .map(|preprocessed| &preprocessed.commitment)
+    }
+}
+
 impl<SC: StarkGenericConfig, Comm> Recursive<SC::Challenge> for CommonDataTargets<SC, Comm>
 where
     Comm: Recursive<
